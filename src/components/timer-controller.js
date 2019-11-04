@@ -1,6 +1,7 @@
-import React from "react";
-import TimerQueue from "./timer-queue";
-import * as helper from "../helper/function";
+/* eslint-disable react/jsx-filename-extension */
+import React from 'react';
+import TimerQueue from './timer-queue';
+import * as helper from '../helper/function';
 
 class TimerController extends React.Component {
   constructor(props) {
@@ -17,64 +18,64 @@ class TimerController extends React.Component {
   }
 
   handleInputChange(e) {
-    const target = e.target;
+    const { target } = e;
 
     this.setState({
-      [target.name]: target.value
+      [target.name]: target.value,
     });
   }
 
   queue(e) {
     e.preventDefault();
 
-    let hour = this.state.hour ? this.state.hour : 0;
-    let minute = this.state.min ? this.state.min : 0;
-    let second = this.state.sec ? this.state.sec : 0;
-
-    let time = helper.processTime({ hour, minute, second });
+    const {
+      hour = 0, minute = 0, second = 0, count, queue,
+    } = this.state;
+    const time = helper.normalizeTime({ hour, minute, second });
 
     if (hour || minute || second) {
       this.setState({
-        count: this.state.count + 1,
+        count: count + 1,
         queue: [
-          ...this.state.queue,
+          ...queue,
           {
-            id: this.state.count,
+            id: count,
             hour: time.hour,
             minute: time.minute,
             second: time.second,
-            formattedTime: `${helper.timeToString(time.hour)} : ${helper.timeToString(time.minute)} : ${helper.timeToString(time.second)}`
-          }
-        ]
+            formattedTime: helper.timeToStr(time),
+          },
+        ],
       });
     }
   }
 
   runTimer() {
-    let topOfQueue = this.state.queue.shift();
+    const { queue } = this.state;
+    const { onRun } = this.props;
+    const topOfQueue = queue.shift();
 
     if (topOfQueue) {
       this.setState({
-        running: topOfQueue
+        running: topOfQueue,
       });
 
-      this.props.onRun(topOfQueue);
+      onRun(topOfQueue);
     }
   }
 
   render() {
-    let queue;
+    let currentQueue;
+    const { queue } = this.state;
 
-    if (this.state.queue.length) {
-      queue = this.state.queue.map(item => {
-        return (
-          <TimerQueue
-            key={item.id}
-            formattedTime={item.formattedTime}
-            onRun={this.runTimer}
-          />
-        );
-      });
+    if (queue.length) {
+      currentQueue = queue.map((item) => (
+        <TimerQueue
+          key={item.id}
+          formattedTime={item.formattedTime}
+          onRun={this.runTimer}
+        />
+      ));
     }
 
     return (
@@ -88,13 +89,13 @@ class TimerController extends React.Component {
           />
           <input
             onChange={this.handleInputChange}
-            name="min"
+            name="minute"
             type="number"
             placeholder="minute"
           />
           <input
             onChange={this.handleInputChange}
-            name="sec"
+            name="second"
             type="number"
             placeholder="second"
           />
@@ -104,7 +105,7 @@ class TimerController extends React.Component {
           </button>
         </form>
 
-        <div className="queue">{queue}</div>
+        <div className="queue">{currentQueue}</div>
       </div>
     );
   }

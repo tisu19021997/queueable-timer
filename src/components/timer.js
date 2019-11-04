@@ -1,58 +1,59 @@
-import React from "react";
-import TimerController from "./timer-controller";
-import { timeToString, timeToSecond, secondToTime } from "../helper/function";
+/* eslint-disable react/jsx-filename-extension */
+import React from 'react';
+import TimerController from './timer-controller';
+import {
+  timeToSecond,
+  secondToTime,
+  timeToStr,
+} from '../helper/function';
 
 class Timer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       time: 0,
-      queue: []
+      queue: [],
     };
 
     this.onRun = this.onRun.bind(this);
     this.onQueue = this.onQueue.bind(this);
   }
 
-  onRun(time) {
-    this.setState({
-      running: {
-        hour: time.hour,
-        minute: time.minute,
-        second: time.
-      },
-      time: `${timeToString(time.hour)} : ${timeToString(time.minute)} : ${timeToString(time.second)}`
-    });
-  }
-
   onQueue(time) {
     this.setState({
-      queue: time
+      queue: time,
     });
   }
 
-  countDown(time) {
-    // decrease time by 1 every second
-    setInterval(() => {
-      let timeInSecond = timeToSecond(time);
-      let timeToDisplay = timeToString(secondToTime(time));
-  
-      timeInSecond -= 1;
-      
-    }, 1000)
+  onRun(time) {
+    const timeObj = time;
+    let seconds = timeToSecond(timeObj);
+
+    const interval = setInterval(() => {
+      const theTime = secondToTime(seconds);
+      this.setState({
+        time: timeToStr(theTime),
+      });
+
+      seconds -= 1;
+
+      if (seconds === 0) {
+        clearInterval(interval);
+      }
+    }, 1000);
   }
-  
 
   render() {
+    const { time } = this.state;
     return (
       <div>
         <div>
-          <h1>{this.state.time}</h1>
+          <h1>{time}</h1>
         </div>
         <div>
           <TimerController onRun={this.onRun} onQueue={this.onQueue} />
         </div>
-        <div></div>
+        <div />
       </div>
     );
   }
