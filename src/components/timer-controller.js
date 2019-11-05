@@ -23,6 +23,8 @@ class TimerController extends React.Component {
 
     // catch the moment when one cycle of timer is finished
     if (prevProps.timeRemaining !== 0 && timeRemaining === 0) {
+      this.playSound();
+
       // if queue is not empty, then continue to run
       if (queue.length) {
         this.runTimer();
@@ -77,6 +79,11 @@ class TimerController extends React.Component {
     const { onQueue } = this.props;
 
     onQueue(time, count);
+  }
+
+  playSound() {
+    this.audio = new Audio('/ting.mp3');
+    this.audio.play();
   }
 
   render() {
