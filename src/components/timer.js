@@ -13,15 +13,26 @@ class Timer extends React.Component {
     this.state = {
       time: 0,
       queue: [],
+      timeRemaining: 0,
     };
 
     this.onRun = this.onRun.bind(this);
     this.onQueue = this.onQueue.bind(this);
   }
 
-  onQueue(time) {
+  onQueue(time, count) {
+    const { queue } = this.state;
+
     this.setState({
-      queue: time,
+      queue: [
+        ...queue,
+        {
+          id: count,
+          hour: time.hour,
+          minute: time.minute,
+          second: time.second,
+        },
+      ],
     });
   }
 
@@ -31,27 +42,34 @@ class Timer extends React.Component {
 
     const interval = setInterval(() => {
       const theTime = secondToTime(seconds);
+
       this.setState({
         time: timeToStr(theTime),
+        timeRemaining: seconds,
       });
-
-      seconds -= 1;
 
       if (seconds === 0) {
         clearInterval(interval);
       }
+
+      seconds -= 1;
     }, 1000);
   }
 
   render() {
-    const { time } = this.state;
+    const { time, timeRemaining } = this.state;
+
     return (
       <div>
         <div>
           <h1>{time}</h1>
         </div>
         <div>
-          <TimerController onRun={this.onRun} onQueue={this.onQueue} />
+          <TimerController
+            onRun={this.onRun}
+            onQueue={this.onQueue}
+            timeRemaining={timeRemaining}
+          />
         </div>
         <div />
       </div>
