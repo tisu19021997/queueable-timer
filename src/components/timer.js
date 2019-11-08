@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
+import NoSleep from 'nosleep.js';
 import TimerController from './timer-controller';
 import {
   timeToSecond,
@@ -38,7 +39,9 @@ class Timer extends React.Component {
 
   onRun(time) {
     const timeObj = time;
+    const noSleep = new NoSleep();
     let seconds = timeToSecond(timeObj);
+    noSleep.enable();
 
     const interval = setInterval(() => {
       const theTime = secondToTime(seconds);
@@ -71,7 +74,6 @@ class Timer extends React.Component {
             timeRemaining={timeRemaining}
           />
         </div>
-        <div />
       </div>
     );
   }

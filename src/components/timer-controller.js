@@ -43,6 +43,11 @@ class TimerController extends React.Component {
   runTimer() {
     const { queue, count } = this.state;
     const { onRun } = this.props;
+
+    if (queue.length <= 0) {
+      return;
+    }
+
     const topOfQueue = queue.shift();
 
     onRun(topOfQueue);
@@ -105,22 +110,32 @@ class TimerController extends React.Component {
         <form onSubmit={this.queue}>
           <input
             onChange={this.handleInputChange}
+            name="label"
+            type="text"
+            placeholder="label"
+          />
+
+          <input
+            onChange={this.handleInputChange}
             name="hour"
             type="number"
             placeholder="hour"
           />
+
           <input
             onChange={this.handleInputChange}
             name="minute"
             type="number"
             placeholder="minute"
           />
+
           <input
             onChange={this.handleInputChange}
             name="second"
             type="number"
             placeholder="second"
           />
+
           <input type="submit" value="Add to queue" />
           <button type="button" onClick={this.runTimer}>
             Run
