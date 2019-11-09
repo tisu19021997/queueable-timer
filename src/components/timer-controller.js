@@ -2,6 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TimerQueue from './timer-queue';
+import SoundFile from './ting.mp3';
 import * as helper from '../helper/function';
 
 class TimerController extends React.Component {
@@ -23,7 +24,7 @@ class TimerController extends React.Component {
 
     // catch the moment when one cycle of timer is finished
     if (prevProps.timeRemaining !== 0 && timeRemaining === 0) {
-      this.playSound();
+      document.getElementById('ting').play();
 
       // if queue is not empty, then continue to run
       if (queue.length) {
@@ -87,7 +88,7 @@ class TimerController extends React.Component {
   }
 
   playSound() {
-    this.audio = new Audio('/ting.mp3');
+    this.audio = new Audio(`${process.env.PUBLIC_URL}/ting.mp3`);
     this.audio.play();
   }
 
@@ -104,6 +105,8 @@ class TimerController extends React.Component {
         />
       ));
     }
+
+    this.myRef = React.createRef();
 
     return (
       <div>
@@ -141,6 +144,10 @@ class TimerController extends React.Component {
             Run
           </button>
         </form>
+
+        <audio id="ting" ref={this.myRef} src={SoundFile}>
+          <track kind="captions" />
+        </audio>
 
         <div className="queue">{currentQueue}</div>
       </div>
