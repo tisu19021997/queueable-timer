@@ -15,6 +15,7 @@ class Timer extends React.Component {
       time: 0,
       queue: [],
       timeRemaining: 0,
+      running: null,
     };
 
     this.onRun = this.onRun.bind(this);
@@ -29,6 +30,7 @@ class Timer extends React.Component {
         ...queue,
         {
           id: count,
+          label: time.label,
           hour: time.hour,
           minute: time.minute,
           second: time.second,
@@ -48,7 +50,9 @@ class Timer extends React.Component {
 
       this.setState({
         time: timeToStr(theTime),
+        label: time.label,
         timeRemaining: seconds,
+        running: time,
       });
 
       if (seconds === 0) {
@@ -60,12 +64,14 @@ class Timer extends React.Component {
   }
 
   render() {
-    const { time, timeRemaining } = this.state;
+    const {
+      time, timeRemaining, running, label,
+    } = this.state;
 
     return (
       <div>
         <div>
-          <h1>{time}</h1>
+          <h1>{!running ? 'Nothing is running' : `${label} for ${time}`}</h1>
         </div>
         <div>
           <TimerController

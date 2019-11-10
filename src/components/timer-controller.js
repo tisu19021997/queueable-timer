@@ -37,7 +37,7 @@ class TimerController extends React.Component {
     const { target } = e;
 
     this.setState({
-      [target.name]: target.value,
+      [target.name]: target.value ? target.value : 0,
     });
   }
 
@@ -62,7 +62,7 @@ class TimerController extends React.Component {
     e.preventDefault();
 
     const {
-      hour = 0, minute = 0, second = 0, count, queue,
+      hour = 0, minute = 0, second = 0, count, queue, label,
     } = this.state;
     const time = helper.normalizeTime({ hour, minute, second });
 
@@ -73,9 +73,10 @@ class TimerController extends React.Component {
           ...queue,
           {
             id: count,
-            hour: time.hour,
-            minute: time.minute,
-            second: time.second,
+            hour: time.hour || 0,
+            minute: time.minute || 0,
+            second: time.second || 0,
+            label: label || 'Default Label',
             formattedTime: helper.timeToStr(time),
           },
         ],
@@ -100,6 +101,7 @@ class TimerController extends React.Component {
       currentQueue = queue.map((item) => (
         <TimerQueue
           key={item.id}
+          label={item.label}
           formattedTime={item.formattedTime}
           onRun={this.runTimer}
         />
