@@ -68,18 +68,24 @@ class Timer extends React.Component {
       time, timeRemaining, running, label,
     } = this.state;
 
+    const taskName = !running ? 'Nothing' : label;
+    const taskTime = !running ? '00:00:00' : time;
+
     return (
-      <div>
-        <div>
-          <h1>{!running ? 'Nothing is running' : `${label} for ${time}`}</h1>
+      <div className="wrapper">
+
+        <div className="page-title">queue -able timer</div>
+
+        <div className="task">
+          <div className="task__name">{taskName}</div>
+          <div className="task__time">{taskTime}</div>
         </div>
-        <div>
-          <TimerController
-            onRun={this.onRun}
-            onQueue={this.onQueue}
-            timeRemaining={timeRemaining}
-          />
-        </div>
+
+        <TimerController
+          onRun={this.onRun}
+          onQueue={this.onQueue}
+          timeRemaining={timeRemaining}
+        />
       </div>
     );
   }

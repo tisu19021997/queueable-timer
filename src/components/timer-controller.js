@@ -112,39 +112,55 @@ class TimerController extends React.Component {
 
     return (
       <div>
-        <form onSubmit={this.queue}>
-          <input
-            onChange={this.handleInputChange}
-            name="label"
-            type="text"
-            placeholder="label"
-          />
+        <form onSubmit={this.queue} className="form">
 
-          <input
-            onChange={this.handleInputChange}
-            name="hour"
-            type="number"
-            placeholder="hour"
-          />
+          <div className="form__title">New task</div>
 
-          <input
-            onChange={this.handleInputChange}
-            name="minute"
-            type="number"
-            placeholder="minute"
-          />
+          <div className="form__control">
 
-          <input
-            onChange={this.handleInputChange}
-            name="second"
-            type="number"
-            placeholder="second"
-          />
+            <div className="form__group">
+              <div className="form__group-label">Give your task a name</div>
+              <div className="form__group-input">
+                <input
+                  onChange={this.handleInputChange}
+                  name="label"
+                  type="text"
+                  placeholder="name"
+                />
+              </div>
+            </div>
 
-          <input type="submit" value="Add to queue" />
-          <button type="button" onClick={this.runTimer}>
+            <div className="form__group">
+              <div className="form__group-label">How long does it take?</div>
+              <div className="form__group-input">
+                <input
+                  onChange={this.handleInputChange}
+                  name="hour"
+                  type="number"
+                  placeholder="hh"
+                />
+
+                <input
+                  onChange={this.handleInputChange}
+                  name="minute"
+                  type="number"
+                  placeholder="mm"
+                />
+
+                <input
+                  onChange={this.handleInputChange}
+                  name="second"
+                  type="number"
+                  placeholder="ss"
+                />
+              </div>
+            </div>
+
+            <input className="form__submit-button" type="submit" value="Add to queue" />
+            <button type="button" onClick={this.runTimer}>
             Run
-          </button>
+            </button>
+          </div>
         </form>
 
         <audio id="ting" ref={this.myRef} src={SoundFile}>

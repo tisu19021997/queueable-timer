@@ -1,22 +1,119 @@
-.App {
-  text-align: center;
+/* Global variable */
+:root {
+  --color-gray: #dfe1e5;
+  --title-font-size: 64px;
+  --timer-font-size: 48px;
+  --label-font-size: 18px;
+  --input-font-size: 24px;
+  --font-weight-xlight: 100;
+  --font-weight-light: 300;
+  --font-weight-bold: 700;
+  --spacing-tiny: 6px;
+  --spacing-small: 12px;
+  --spacing-regular: 24px;
+  --spacing-large: 60px;
+  --spacing-huge: 72px;
 }
 
-.App-logo {
-  height: 40vmin;
+
+
+
+/* Very simple normalization */
+body {
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+
+
+/* Page elements */
+.wrapper {
+  padding-left: 32px;
+  padding-right: 32px;
 }
 
-.App-link {
-  color: #09d3ac;
+.page-title {
+  font-size: var(--title-font-size);
+  font-weight: var(--font-weight-light);
+  line-height: 77px;
+  width: 60%;
+  margin-bottom: var(--spacing-huge);
+  margin-top: var(--spacing-small);
+}
+
+
+
+
+/* Task component */
+
+.task {
+  margin-bottom: var(--spacing-huge);
+}
+.task__name {
+  font-size: var(--label-font-size);
+  font-weight: var(--font-weight-xlight);
+  /*margin-bottom: var(--spacing-tiny);*/
+}
+
+.task__time {
+  font-size: var(--timer-font-size);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 1px;
+  padding-bottom: var(--spacing-tiny);
+  border-bottom: 4px solid currentColor;
+}
+
+
+
+
+/* Timer controls */
+
+.form__title {
+  font-size: 36px;
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--spacing-regular);
+}
+
+.form__group {
+  margin-bottom: var(--spacing-regular)
+}
+
+.form__group-label {
+  font-size: var(--label-font-size);
+  font-weight: var(--font-weight-light);
+  margin-bottom: var(--spacing-small);
+}
+
+[type="text"],
+[type="number"] {
+  border: none;
+  border-bottom: 0.5px solid var(--color-gray);
+  font-size: var(--input-font-size);
+  font-weight: var(--font-weight-bold);
+}
+
+[type="number"] {
+  display: inline-block;
+  width: 20%;
+  margin-right: 10%;
+}
+
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  font-weight: var(--font-weight-light);
+}
+::-moz-placeholder { /* Firefox 19+ */
+  font-weight: var(--font-weight-light);
+}
+:-ms-input-placeholder { /* IE 10+ */
+  font-weight: var(--font-weight-light);
+}
+:-moz-placeholder { /* Firefox 18- */
+  font-weight: var(--font-weight-light);
+}
+
+/* Utilities */
+
+.mb-72 {
+  margin-bottom: 72px;
 }

@@ -32,7 +32,7 @@ export function timeUnitToStr(unitOfTime, zeroPrefix = true) {
  * @param {object} time The time object
  */
 export function timeToStr(time) {
-  return `${timeUnitToStr(time.hour)} : ${timeUnitToStr(time.minute)} : ${timeUnitToStr(time.second)}`;
+  return `${timeUnitToStr(time.hour)}:${timeUnitToStr(time.minute)}:${timeUnitToStr(time.second)}`;
 }
 
 /**
