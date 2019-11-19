@@ -96,11 +96,12 @@ class TimerController extends React.Component {
   render() {
     let currentQueue;
     const { queue } = this.state;
+    const { showQueue, toggleModal } = this.props;
 
     if (queue.length) {
       currentQueue = queue.map((item) => (
         <TimerQueue
-          key={item.id}
+          id={item.id}
           label={item.label}
           formattedTime={item.formattedTime}
           onRun={this.runTimer}
@@ -156,18 +157,37 @@ class TimerController extends React.Component {
               </div>
             </div>
 
-            <input className="form__submit-button" type="submit" value="Add to queue" />
-            <button type="button" onClick={this.runTimer}>
-            Run
-            </button>
+            <input className="form__submit-btn" type="submit" value="Add to queue" />
+            <button className="btn--top-right" type="button" onClick={this.runTimer}>Run</button>
           </div>
+
         </form>
 
         <audio id="ting" ref={this.myRef} src={SoundFile}>
           <track kind="captions" />
         </audio>
 
-        <div className="queue">{currentQueue}</div>
+        {showQueue ? (
+          <div className="queue__modal">
+            <div className="queue__title">current queue</div>
+
+            <button
+              type="button"
+              className="close"
+              onClick={toggleModal}
+            >
+              <svg width="24" height="24" viewBox="0 0 7 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="0.969925" y="0.434853" width="0.560681" height="6.72818" transform="rotate(-45 0.969925 0.434853)" fill="black" />
+                <rect x="5.68907" width="0.560681" height="6.72818" transform="rotate(45 5.68907 0)" fill="black" />
+              </svg>
+            </button>
+
+            <ol className="queue">
+              {currentQueue}
+            </ol>
+          </div>
+        ) : ''}
+
       </div>
     );
   }
@@ -177,6 +197,7 @@ TimerController.propTypes = {
   timeRemaining: PropTypes.number.isRequired,
   onRun: PropTypes.func.isRequired,
   onQueue: PropTypes.func.isRequired,
+  showQueue: PropTypes.bool.isRequired,
 };
 
 export default TimerController;

@@ -19,27 +19,53 @@
 
 
 /* Very simple normalization */
+
 body {
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
 }
 
+button,
+[type="submit"] {
+  border: none;
+  background: transparent;
+}
+
+button:hover,
+[type="submit"]:hover {
+  opacity: .35;
+}
+
 
 
 /* Page elements */
 .wrapper {
-  padding-left: 32px;
-  padding-right: 32px;
+  margin-left: 32px;
+  margin-right: 32px;
+  position: relative;
+  overflow: hidden;
+}
+
+.page-header {
+  margin-bottom: var(--spacing-huge);
+  margin-top: var(--spacing-small);
+  position: relative;
 }
 
 .page-title {
   font-size: var(--title-font-size);
-  font-weight: var(--font-weight-light);
-  line-height: 77px;
+  font-weight: var(--font-weight-bold);
+  /*line-height: 77px;*/
+  line-height: 49px;
   width: 60%;
-  margin-bottom: var(--spacing-huge);
-  margin-top: var(--spacing-small);
+}
+
+.page-menu {
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin-top: 16px;
 }
 
 
@@ -48,8 +74,9 @@ body {
 /* Task component */
 
 .task {
-  margin-bottom: var(--spacing-huge);
+  margin-bottom: var(--spacing-large);
 }
+
 .task__name {
   font-size: var(--label-font-size);
   font-weight: var(--font-weight-xlight);
@@ -69,8 +96,13 @@ body {
 
 /* Timer controls */
 
+.form {
+  position: relative;
+}
+
 .form__title {
   font-size: 36px;
+  line-height: 1;
   font-weight: var(--font-weight-bold);
   margin-bottom: var(--spacing-regular);
 }
@@ -99,17 +131,98 @@ body {
   margin-right: 10%;
 }
 
-::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+::-webkit-input-placeholder {
+  /* Chrome/Opera/Safari */
   font-weight: var(--font-weight-light);
 }
-::-moz-placeholder { /* Firefox 19+ */
+
+::-moz-placeholder {
+  /* Firefox 19+ */
   font-weight: var(--font-weight-light);
 }
-:-ms-input-placeholder { /* IE 10+ */
+
+:-ms-input-placeholder {
+  /* IE 10+ */
   font-weight: var(--font-weight-light);
 }
-:-moz-placeholder { /* Firefox 18- */
+
+:-moz-placeholder {
+  /* Firefox 18- */
   font-weight: var(--font-weight-light);
+}
+
+.form__submit-btn {
+  float: right;
+  margin-top: var(--spacing-small);
+  margin-bottom: var(--spacing-regular);
+}
+
+.form__submit-btn,
+.btn--top-right {
+  font-size: var(--input-font-size);
+  font-weight: var(--font-weight-xlight);
+  border-bottom: 0.5px solid #111;
+  padding: 0;
+}
+
+.btn--top-right {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+/* Queue */
+
+.queue {
+  margin-top: var(--spacing-small);
+}
+.queue__modal {
+  position: fixed;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: #fff;
+  overflow: auto;
+  padding-left: var(--spacing-regular);
+}
+
+.queue__title {
+  font-size: var(--title-font-size);
+  font-weight: var(--font-weight-bold);
+  line-height: 36px;
+  margin-top: var(--spacing-regular);
+  margin-bottom: var(--spacing-large);
+  max-width: 50%;
+}
+
+.queue__item {
+  font-size: var(--label-font-size);
+  font-weight: var(--font-weight-light);
+  width: 100%;
+  margin-bottom: var(--spacing-tiny)
+}
+
+.queue__label,
+.queue__time {
+  display: table-cell;
+}
+
+.queue__label {
+  width: 60%;
+}
+
+.queue__time {
+  font-size: var(--input-font-size);
+  font-weight: var(--font-weight-bold);
+  width: 40%;
+}
+
+.close {
+  position: absolute;
+  right: 12%;
+  top: 4%;
 }
 
 /* Utilities */

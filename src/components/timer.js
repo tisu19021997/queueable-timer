@@ -16,10 +16,12 @@ class Timer extends React.Component {
       queue: [],
       timeRemaining: 0,
       running: null,
+      showQueue: false,
     };
 
     this.onRun = this.onRun.bind(this);
     this.onQueue = this.onQueue.bind(this);
+    this.toggleModal = this.toggleModal.bind(this);
   }
 
   onQueue(time, count) {
@@ -63,9 +65,16 @@ class Timer extends React.Component {
     }, 1000);
   }
 
+  toggleModal() {
+    const { showQueue } = this.state;
+    this.setState({
+      showQueue: !showQueue,
+    });
+  }
+
   render() {
     const {
-      time, timeRemaining, running, label,
+      time, timeRemaining, running, label, showQueue,
     } = this.state;
 
     const taskName = !running ? 'Nothing' : label;
@@ -74,7 +83,22 @@ class Timer extends React.Component {
     return (
       <div className="wrapper">
 
-        <div className="page-title">queue -able timer</div>
+        <div className="page-header">
+          <div className="page-title">queue -able timer</div>
+
+          <button
+            type="button"
+            className="page-menu"
+            onClick={this.toggleModal}
+          >
+            <svg width="6" height="22" viewBox="0 0 6 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="3" cy="3" r="3" fill="#333333" />
+              <circle cx="3" cy="11" r="3" fill="#333333" />
+              <circle cx="3" cy="19" r="3" fill="#333333" />
+            </svg>
+          </button>
+        </div>
+
 
         <div className="task">
           <div className="task__name">{taskName}</div>
@@ -84,6 +108,8 @@ class Timer extends React.Component {
         <TimerController
           onRun={this.onRun}
           onQueue={this.onQueue}
+          showQueue={showQueue}
+          toggleModal={this.toggleModal}
           timeRemaining={timeRemaining}
         />
       </div>
