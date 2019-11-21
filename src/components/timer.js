@@ -2,6 +2,7 @@
 import React from 'react';
 import NoSleep from 'nosleep.js';
 import TimerController from './timer-controller';
+import Modal from './modal';
 import {
   timeToSecond,
   secondToTime,
@@ -17,11 +18,13 @@ class Timer extends React.Component {
       timeRemaining: 0,
       running: null,
       showQueue: false,
+      isFullScreen: false,
     };
 
     this.onRun = this.onRun.bind(this);
     this.onQueue = this.onQueue.bind(this);
-    this.toggleModal = this.toggleModal.bind(this);
+    this.toggleQueueModal = this.toggleQueueModal.bind(this);
+    this.expandTimer = this.expandTimer.bind(this);
   }
 
   onQueue(time, count) {
@@ -65,23 +68,37 @@ class Timer extends React.Component {
     }, 1000);
   }
 
-  toggleModal() {
+  toggleQueueModal() {
     const { showQueue } = this.state;
     this.setState({
       showQueue: !showQueue,
     });
   }
 
+  expandTimer() {
+    const { isFullScreen } = this.state;
+    this.setState({
+      isFullScreen: !isFullScreen,
+    });
+  }
+
   render() {
     const {
-      time, timeRemaining, running, label, showQueue,
+      time, timeRemaining, running, label, showQueue, isFullScreen,
     } = this.state;
 
     const taskName = !running ? 'Nothing' : label;
     const taskTime = !running ? '00:00:00' : time;
+    let timerModal = '';
+
+    if (isFullScreen) {
+      timerModal = <Modal center close={this.expandTimer}><div className="modal-time">{taskTime}</div></Modal>;
+    }
 
     return (
       <div className="wrapper">
+
+        {timerModal}
 
         <div className="page-header">
           <div className="page-title">queue -able timer</div>
@@ -89,7 +106,7 @@ class Timer extends React.Component {
           <button
             type="button"
             className="page-menu"
-            onClick={this.toggleModal}
+            onClick={this.toggleQueueModal}
           >
             <svg width="6" height="22" viewBox="0 0 6 22" fill="none" xmlns="http://www.w3.org/2000/svg">
               <circle cx="3" cy="3" r="3" fill="#333333" />
@@ -101,15 +118,16 @@ class Timer extends React.Component {
 
 
         <div className="task">
-          <div className="task__name">{taskName}</div>
-          <div className="task__time">{taskTime}</div>
+          <div className="task-name">{taskName}</div>
+          <div className="task-time">{taskTime}</div>
+          <button type="button" className="btn js-modal" onClick={this.expandTimer}>Expand</button>
         </div>
 
         <TimerController
           onRun={this.onRun}
           onQueue={this.onQueue}
           showQueue={showQueue}
-          toggleModal={this.toggleModal}
+          toggleQueueModal={this.toggleQueueModal}
           timeRemaining={timeRemaining}
         />
       </div>

@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 function TimerQueue(props) {
   const { id, label, formattedTime } = props;
   return (
-    <li key={id} className="queue__item">
-      <span className="queue__label">{label}</span>
-      <span className="queue__time">{formattedTime}</span>
+    <li key={id} className="queue-item">
+      <span className="queue-label">{label}</span>
+      <span className="queue-time">{formattedTime}</span>
     </li>
   );
 }

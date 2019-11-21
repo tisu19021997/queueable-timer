@@ -96,7 +96,7 @@ class TimerController extends React.Component {
   render() {
     let currentQueue;
     const { queue } = this.state;
-    const { showQueue, toggleModal } = this.props;
+    const { showQueue, toggleQueueModal } = this.props;
 
     if (queue.length) {
       currentQueue = queue.map((item) => (
@@ -115,13 +115,13 @@ class TimerController extends React.Component {
       <div>
         <form onSubmit={this.queue} className="form">
 
-          <div className="form__title">New task</div>
+          <div className="form-title">New task</div>
 
-          <div className="form__control">
+          <div className="form-control">
 
-            <div className="form__group">
-              <div className="form__group-label">Give your task a name</div>
-              <div className="form__group-input">
+            <div className="form-group">
+              <div className="form-group-label">Give your task a name</div>
+              <div className="form-group-input">
                 <input
                   onChange={this.handleInputChange}
                   name="label"
@@ -131,9 +131,9 @@ class TimerController extends React.Component {
               </div>
             </div>
 
-            <div className="form__group">
-              <div className="form__group-label">How long does it take?</div>
-              <div className="form__group-input">
+            <div className="form-group">
+              <div className="form-group-label">How long does it take?</div>
+              <div className="form-group-input">
                 <input
                   onChange={this.handleInputChange}
                   name="hour"
@@ -157,8 +157,8 @@ class TimerController extends React.Component {
               </div>
             </div>
 
-            <input className="form__submit-btn" type="submit" value="Add to queue" />
-            <button className="btn--top-right" type="button" onClick={this.runTimer}>Run</button>
+            <input className="form-submit-btn btn" type="submit" value="Add to queue" />
+            <button className="form-on-btn btn" type="button" onClick={this.runTimer}>Run</button>
           </div>
 
         </form>
@@ -168,18 +168,32 @@ class TimerController extends React.Component {
         </audio>
 
         {showQueue ? (
-          <div className="queue__modal">
-            <div className="queue__title">current queue</div>
+          <div className="queue-modal">
+            <div className="queue-title">current queue</div>
 
             <button
               type="button"
               className="close"
-              onClick={toggleModal}
+              onClick={toggleQueueModal}
             >
+
               <svg width="24" height="24" viewBox="0 0 7 6" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect x="0.969925" y="0.434853" width="0.560681" height="6.72818" transform="rotate(-45 0.969925 0.434853)" fill="black" />
                 <rect x="5.68907" width="0.560681" height="6.72818" transform="rotate(45 5.68907 0)" fill="black" />
               </svg>
+
+            </button>
+
+            <button
+              type="button"
+              className="queue-clear btn"
+              onClick={() => {
+                this.setState({
+                  queue: [],
+                });
+              }}
+            >
+              Clear
             </button>
 
             <ol className="queue">
@@ -198,6 +212,7 @@ TimerController.propTypes = {
   onRun: PropTypes.func.isRequired,
   onQueue: PropTypes.func.isRequired,
   showQueue: PropTypes.bool.isRequired,
+  toggleQueueModal: PropTypes.func.isRequired,
 };
 
 export default TimerController;
