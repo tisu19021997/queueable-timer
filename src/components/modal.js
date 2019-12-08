@@ -18,10 +18,10 @@ class Modal extends React.Component {
   render() {
     const { children, center } = this.props;
 
-    const classList = ['modal'];
+    let classList = ['modal'];
 
     if (center) {
-      classList.push('modal--center');
+      classList = [...classList, 'modal--center'];
     }
 
     const modalClassName = classList.join(' ');

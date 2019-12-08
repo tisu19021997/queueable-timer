@@ -6,7 +6,7 @@ function TimerQueue(props) {
   const { id, label, formattedTime } = props;
   return (
     <li key={id} className="queue-item">
-      <span className="queue-label">{label}</span>
+      <span className="queue-label one-line">{label}</span>
       <span className="queue-time">{formattedTime}</span>
     </li>
   );

@@ -17,11 +17,16 @@ class Timer extends React.Component {
       queue: [],
       timeRemaining: 0,
       running: null,
-      showQueue: false,
+      isRunning: false,
+      isPaused: false,
       isFullScreen: false,
+      showQueue: false,
+      interval: null,
     };
 
     this.onRun = this.onRun.bind(this);
+    this.onPause = this.onPause.bind(this);
+    this.onResume = this.onResume.bind(this);
     this.onQueue = this.onQueue.bind(this);
     this.toggleQueueModal = this.toggleQueueModal.bind(this);
     this.expandTimer = this.expandTimer.bind(this);
@@ -48,7 +53,12 @@ class Timer extends React.Component {
     const timeObj = time;
     const noSleep = new NoSleep();
     let seconds = timeToSecond(timeObj);
+
     noSleep.enable();
+
+    this.setState({
+      isRunning: true,
+    });
 
     const interval = setInterval(() => {
       const theTime = secondToTime(seconds);
@@ -58,10 +68,48 @@ class Timer extends React.Component {
         label: time.label,
         timeRemaining: seconds,
         running: time,
+        interval,
       });
 
       if (seconds === 0) {
         clearInterval(interval);
+        this.setState({
+          isRunning: false,
+        });
+      }
+
+      seconds -= 1;
+    }, 1000);
+  }
+
+  onPause() {
+    const { interval } = this.state;
+
+    clearInterval(interval);
+
+    this.setState({
+      isPaused: true,
+    });
+  }
+
+  onResume() {
+    const { timeRemaining } = this.state;
+    let seconds = timeRemaining;
+
+    const interval = setInterval(() => {
+      const theTime = secondToTime(seconds);
+      this.setState({
+        time: timeToStr(theTime),
+        timeRemaining: seconds,
+        isPaused: false,
+        interval,
+      });
+
+      if (seconds === 0) {
+        clearInterval(interval);
+        this.setState({
+          isRunning: false,
+        });
       }
 
       seconds -= 1;
@@ -84,7 +132,7 @@ class Timer extends React.Component {
 
   render() {
     const {
-      time, timeRemaining, running, label, showQueue, isFullScreen,
+      time, timeRemaining, running, label, showQueue, isFullScreen, isRunning, isPaused,
     } = this.state;
 
     const taskName = !running ? 'Nothing' : label;
@@ -92,11 +140,15 @@ class Timer extends React.Component {
     let timerModal = '';
 
     if (isFullScreen) {
-      timerModal = <Modal center close={this.expandTimer}><div className="modal-time">{taskTime}</div></Modal>;
+      timerModal = (
+        <Modal center close={this.expandTimer}>
+          <div className="modal-time">{taskTime}</div>
+        </Modal>
+      );
     }
 
     return (
-      <div className="wrapper">
+      <div className="page-wrapper">
 
         {timerModal}
 
@@ -120,14 +172,18 @@ class Timer extends React.Component {
         <div className="task">
           <div className="task-name">{taskName}</div>
           <div className="task-time">{taskTime}</div>
-          <button type="button" className="btn js-modal" onClick={this.expandTimer}>Expand</button>
+          <button type="button" className="btn js-modal" onClick={this.expandTimer}>Focus Mode</button>
         </div>
 
         <TimerController
           onRun={this.onRun}
           onQueue={this.onQueue}
+          onPause={this.onPause}
+          onResume={this.onResume}
           showQueue={showQueue}
           toggleQueueModal={this.toggleQueueModal}
+          isRunning={isRunning}
+          isPaused={isPaused}
           timeRemaining={timeRemaining}
         />
       </div>

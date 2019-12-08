@@ -1,4 +1,5 @@
-/* Global variable */
+/*========== GLOBAL VARIABLES ==========*/
+
 :root {
   --color-gray: #dfe1e5;
   --title-font-size: 64px;
@@ -11,14 +12,20 @@
   --spacing-tiny: 6px;
   --spacing-small: 12px;
   --spacing-regular: 24px;
+  --spacing-2x-regular: 48px;
   --spacing-large: 60px;
   --spacing-huge: 72px;
+  --content-max-width: 750px;
 }
 
 
 
 
-/* Very simple normalization */
+/*========== VERY VERY SIMPLE NORMALIZATION ==========*/
+
+* {
+  box-sizing: border-box;
+}
 
 body {
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
@@ -30,6 +37,7 @@ button,
 [type="submit"] {
   border: none;
   background: transparent;
+  cursor: pointer;
 }
 
 button:hover,
@@ -39,8 +47,9 @@ button:hover,
 
 
 
-/* Page elements */
-.wrapper {
+
+/*========== PAGE ELEMENTS ==========*/
+.page-wrapper {
   margin-left: 32px;
   margin-right: 32px;
   position: relative;
@@ -71,7 +80,7 @@ button:hover,
 
 
 
-/* Task component */
+/*========== TASKS COMPONENT ==========*/
 
 .task {
   margin-bottom: var(--spacing-large);
@@ -103,7 +112,7 @@ button:hover,
 
 
 
-/* Timer controls */
+/*========== TIMER CONTROLS ==========*/
 
 .form {
   position: relative;
@@ -179,7 +188,7 @@ button:hover,
   padding: 0;
 }
 
-/* Queue */
+/*========== QUEUE ==========*/
 
 .queue {
   margin-top: var(--spacing-small);
@@ -195,6 +204,11 @@ button:hover,
   background-color: #fff;
   overflow: auto;
   padding-left: var(--spacing-regular);
+  padding-right: var(--spacing-regular);
+}
+
+.queue-modal__wrapper {
+  position: relative;
 }
 
 .queue-title {
@@ -207,16 +221,18 @@ button:hover,
 }
 
 .queue-item {
+  display: flex;
+  align-items: center;
   font-size: var(--label-font-size);
   font-weight: var(--font-weight-light);
   width: 100%;
   margin-bottom: var(--spacing-tiny)
 }
 
-.queue-label,
-.queue-time {
-  display: table-cell;
-}
+/*.queue-label,*/
+/*.queue-time {*/
+/*  display: table-cell;*/
+/*}*/
 
 .queue-label {
   width: 60%;
@@ -226,15 +242,20 @@ button:hover,
   font-size: var(--input-font-size);
   font-weight: var(--font-weight-bold);
   width: 40%;
+  float: right;
 }
 
 .close {
   position: absolute;
-  right: 12%;
-  top: 4%;
+  right: 0;
+  top: 0;
 }
 
-/* Modal */
+
+
+
+/*========== MODAL ==========*/
+
 .modal {
   position: fixed;
   z-index: 1;
@@ -269,4 +290,24 @@ button:hover,
   position: absolute;
   right: 0;
   top: 5%;
+}
+
+
+
+
+/*========== EVENT ==========*/
+.error {
+  border-bottom-color: red;
+}
+
+
+
+
+/*========== UTILITIES ==========*/
+
+.one-line {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 }
