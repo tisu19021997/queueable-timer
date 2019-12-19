@@ -18,6 +18,8 @@ class TimerController extends React.Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.queue = this.queue.bind(this);
     this.runTimer = this.runTimer.bind(this);
+    this.deleteItem = this.deleteItem.bind(this);
+    this.skipTask = this.skipTask.bind(this);
   }
 
   componentDidUpdate(prevProps) {
@@ -38,8 +40,14 @@ class TimerController extends React.Component {
   handleInputChange(e) {
     const { target } = e;
 
+    let value = 0;
+
+    if (target.value && target.value > 0) {
+      value = target.value;
+    }
+
     this.setState({
-      [target.name]: target.value ? target.value : 0,
+      [target.name]: value,
     });
   }
 
@@ -111,18 +119,37 @@ class TimerController extends React.Component {
     this.audio.play();
   }
 
+  deleteItem(id) {
+    const { queue } = this.state;
+    const newQueue = queue.filter((item) => (item.id.toString() !== id.toString()));
+
+    this.setState({
+      queue: newQueue,
+    });
+
+    return true;
+  }
+
+  skipTask() {
+    const { interval } = this.props;
+
+    // TODO: implement skip task function
+  }
+
   render() {
     let currentQueue;
     let actionButton;
     const { queue, queueError, submitValue } = this.state;
     const {
-      showQueue, toggleQueueModal, onPause, isRunning, isPaused, onResume,
+      showQueue, toggleQueueModal, onPause,
+      isRunning, isPaused, onResume,
     } = this.props;
     const inputClass = queueError ? 'error' : '';
 
     if (queue.length) {
       currentQueue = queue.map((item) => (
         <TimerQueue
+          deleteItem={this.deleteItem}
           key={item.id}
           id={item.id}
           label={item.label}
@@ -194,6 +221,7 @@ class TimerController extends React.Component {
                   onChange={this.handleInputChange}
                   name="hour"
                   type="number"
+                  min={0}
                   placeholder="hh"
                 />
 
@@ -202,6 +230,7 @@ class TimerController extends React.Component {
                   onChange={this.handleInputChange}
                   name="minute"
                   type="number"
+                  min={0}
                   placeholder="mm"
                 />
 
@@ -210,6 +239,7 @@ class TimerController extends React.Component {
                   onChange={this.handleInputChange}
                   name="second"
                   type="number"
+                  min={0}
                   placeholder="ss"
                 />
               </div>
@@ -226,6 +256,23 @@ class TimerController extends React.Component {
           </div>
 
         </form>
+
+        {
+          /*
+          isRunning
+            ? (
+              <button
+                type="button"
+                onClick={this.skipTask}
+                className="btn task-skip"
+              >
+                Skip
+              </button>
+            )
+            : ''
+
+           */
+        }
 
         <audio id="ting" ref={this.myRef} src={SoundFile}>
           <track kind="captions" />
@@ -290,6 +337,11 @@ TimerController.propTypes = {
   isPaused: PropTypes.bool.isRequired,
   showQueue: PropTypes.bool.isRequired,
   toggleQueueModal: PropTypes.func.isRequired,
+  interval: PropTypes.number,
+};
+
+TimerController.defaultProps = {
+  interval: null,
 };
 
 export default TimerController;

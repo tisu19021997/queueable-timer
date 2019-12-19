@@ -19,8 +19,6 @@
 }
 
 
-
-
 /*========== VERY VERY SIMPLE NORMALIZATION ==========*/
 
 * {
@@ -44,8 +42,6 @@ button:hover,
 [type="submit"]:hover {
   opacity: .35;
 }
-
-
 
 
 /*========== PAGE ELEMENTS ==========*/
@@ -78,8 +74,6 @@ button:hover,
 }
 
 
-
-
 /*========== TASKS COMPONENT ==========*/
 
 .task {
@@ -101,15 +95,20 @@ button:hover,
   border-bottom: 4px solid currentColor;
 }
 
-.task .btn {
-  font-size: var(--label-font-size);
-  font-weight: var(--font-weight-xlight);
+.task-skip,
+.task-focus{
   position: absolute;
-  top: 0;
   right: 0;
 }
 
+.btn.task-skip {
+  font-size: var(--label-font-size);
+}
 
+.btn.task-focus  {
+  font-size: var(--label-font-size);
+  top: 0;
+}
 
 
 /*========== TIMER CONTROLS ==========*/
@@ -252,8 +251,6 @@ button:hover,
 }
 
 
-
-
 /*========== MODAL ==========*/
 
 .modal {
@@ -269,7 +266,7 @@ button:hover,
 }
 
 .modal-content {
-  background:white;
+  background: white;
   box-shadow: 0 0 10px rgba(0, 0, 0, .2);
 }
 
@@ -293,14 +290,10 @@ button:hover,
 }
 
 
-
-
 /*========== EVENT ==========*/
 .error {
   border-bottom-color: red;
 }
-
-
 
 
 /*========== UTILITIES ==========*/

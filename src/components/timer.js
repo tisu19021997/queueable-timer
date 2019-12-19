@@ -30,6 +30,7 @@ class Timer extends React.Component {
     this.onQueue = this.onQueue.bind(this);
     this.toggleQueueModal = this.toggleQueueModal.bind(this);
     this.expandTimer = this.expandTimer.bind(this);
+    this.skipTask = this.skipTask.bind(this);
   }
 
   onQueue(time, count) {
@@ -130,9 +131,15 @@ class Timer extends React.Component {
     });
   }
 
+  skipTask() {
+
+  }
+
   render() {
     const {
-      time, timeRemaining, running, label, showQueue, isFullScreen, isRunning, isPaused,
+      time, timeRemaining, running, label, showQueue,
+      isFullScreen, isRunning, isPaused,
+      interval,
     } = this.state;
 
     const taskName = !running ? 'Nothing' : label;
@@ -171,8 +178,10 @@ class Timer extends React.Component {
 
         <div className="task">
           <div className="task-name">{taskName}</div>
-          <div className="task-time">{taskTime}</div>
-          <button type="button" className="btn js-modal" onClick={this.expandTimer}>Focus Mode</button>
+          <div className="task-time">
+            {taskTime}
+          </div>
+          <button type="button" className="btn task-focus js-modal" onClick={this.expandTimer}>Focus Mode</button>
         </div>
 
         <TimerController
@@ -180,11 +189,13 @@ class Timer extends React.Component {
           onQueue={this.onQueue}
           onPause={this.onPause}
           onResume={this.onResume}
+          onSkip={this.skipTask}
           showQueue={showQueue}
           toggleQueueModal={this.toggleQueueModal}
           isRunning={isRunning}
           isPaused={isPaused}
           timeRemaining={timeRemaining}
+          interval={interval}
         />
       </div>
     );
