@@ -13,6 +13,7 @@ class TimerController extends React.Component {
       count: 0,
       queueError: false,
       submitValue: 'Add to Queue',
+      label: 'Default Label',
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -40,15 +41,23 @@ class TimerController extends React.Component {
   handleInputChange(e) {
     const { target } = e;
 
-    let value = 0;
+    if (!target.value) {
+      return false;
+    }
 
-    if (target.value && target.value > 0) {
-      value = target.value;
+    let { value, name } = target;
+
+    if (!Number.isNaN(parseInt(value, 10)) && name !== 'label') {
+      if (parseInt(value, 10) < 0) {
+        value = Math.abs(value);
+      }
     }
 
     this.setState({
-      [target.name]: value,
+      [name]: value,
     });
+
+    return true;
   }
 
   runTimer() {
@@ -95,7 +104,7 @@ class TimerController extends React.Component {
           hour: time.hour || 0,
           minute: time.minute || 0,
           second: time.second || 0,
-          label: label || 'Default Label',
+          label,
           formattedTime: helper.timeToStr(time),
         },
       ],
